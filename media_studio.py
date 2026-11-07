@@ -304,9 +304,14 @@ def load_config():
     template = data.get("variant_template")
     if not isinstance(template, str):
         template = ""
+    raw_chars = data.get("artifact_characters")
+    if not isinstance(raw_chars, list):
+        raw_chars = []
+    chars = [str(c).strip() for c in raw_chars if str(c).strip()][:100]
     return {"save_dir": path,
             "access_password_hash": str(data.get("access_password_hash") or ""),
-            "variant_template": template[:8000]}
+            "variant_template": template[:8000],
+            "artifact_characters": chars}
 
 
 def load_config_raw():
@@ -915,10 +920,7 @@ def _safe_name(text, limit=32):
     return slug
 
 
-ARTIFACT_CHARACTERS = [
-    "樱羽艾玛", "艾玛", "拉姆", "雷姆", "初音未来", "初音", "奶龙", "橘猫", "柴犬",
-    "猫娘", "龙娘", "狐狸", "兔子", "猫", "狗", "龙",
-]
+ARTIFACT_CHARACTERS = []
 ARTIFACT_KEYWORDS = [
     "粗糙", "涂鸦", "线稿", "平涂", "Live2D", "半睁眼", "淡笑", "坏笑", "尖牙", "眨眼",
     "回眸", "侧脸", "近景", "头像", "半身", "全身", "符纸", "贝雷帽", "樱花", "红月",
@@ -935,7 +937,8 @@ def _prompt_keywords(prompt):
     text = str(prompt or "")
     chosen = []
 
-    chars = sorted((c for c in ARTIFACT_CHARACTERS if c in text), key=len, reverse=True)
+    configured = load_config().get("artifact_characters") or ARTIFACT_CHARACTERS
+    chars = sorted((c for c in configured if c in text), key=len, reverse=True)
     for c in chars:
         if any(c in existing for existing in chosen):
             continue

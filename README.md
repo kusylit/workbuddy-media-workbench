@@ -153,7 +153,7 @@ http://127.0.0.1:8790/
 
 > 访问密码只保存在当前页面内存中，刷新页面后需要重新输入；这是为了避免把明文密码写进 localStorage/sessionStorage。
 >
-> 如需修改「变体生成」的默认模板，在 `studio-config.json` 里设置 `variant_template`；留空则使用内置的通用模板。
+> 如需修改「变体生成」的默认模板，在 `studio-config.json` 里设置 `variant_template`；留空则使用内置的通用模板。角色名关键词可通过 `artifact_characters` 数组配置，默认空列表。
 
 ## 运行数据
 

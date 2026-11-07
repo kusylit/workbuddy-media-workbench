@@ -150,7 +150,7 @@ The **Settings** page allows you to:
 
 > The access password is kept in page memory only. A refresh asks for it again; it is not written to localStorage/sessionStorage.
 >
-> To change the default template used by **Generate variants**, set `variant_template` in `studio-config.json`; leave it empty to use the built-in generic template.
+> To change the default template used by **Generate variants**, set `variant_template` in `studio-config.json`; leave it empty to use the built-in generic template. Character name keywords can be configured with the `artifact_characters` array; the default is empty.
 
 ## Runtime data
 
