@@ -205,7 +205,7 @@ Expected. The password lives only in page memory and is not restored from browse
 
 - Gateway: WorkBuddy2API-Hub v2.0.0-compatible `/v1/media/models`, `/v1/images/generations`, `/v1/images/edits`, `/v1/videos` APIs.
 - Python: 3.10+ on Windows / Linux / macOS.
-- Plugin version: `1.3.0`.
+- Plugin version: `1.3.1`.
 
 ## Notes
 

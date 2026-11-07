@@ -208,7 +208,7 @@ http://127.0.0.1:8790/
 
 - 网关：WorkBuddy2API-Hub v2.0.0 及兼容的 `/v1/media/models`、`/v1/images/generations`、`/v1/images/edits`、`/v1/videos` 接口。
 - Python：3.10+，Windows / Linux / macOS。
-- 插件版本：`1.3.0`。
+- 插件版本：`1.3.1`。
 
 ## 说明
 

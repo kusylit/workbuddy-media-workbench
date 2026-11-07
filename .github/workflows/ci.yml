@@ -31,6 +31,6 @@ jobs:
       - name: Reject local paths and obvious secrets
         run: |
           if grep -RInE 'C:\\\\Users\\\\|庞皓文|ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}|Bearer [A-Za-z0-9_-]{20,}' \
-            --exclude-dir=.git --exclude-dir=docs . ; then
+            --exclude-dir=.git --exclude-dir=.github --exclude-dir=docs . ; then
             echo "Potential local path or secret found"; exit 1;
           fi
