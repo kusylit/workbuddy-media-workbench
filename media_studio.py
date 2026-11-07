@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Kusylit's Studio — 本地生图 / 改图 / 生视频工作台。
+"""WorkBuddy 媒体工作台（Kusylit's Studio）— 本地生图 / 改图 / 生视频工作台。
 
 能力：
   - 生图 / 改图（多图）/ 生视频（首尾帧、参考图、负向提示、音频开关）
@@ -1572,8 +1572,8 @@ PAGE = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kusylit's Studio · AI 媒体工作台</title>
-<meta name="description" content="Kusylit's Studio — 本地优先的 AI 生图、改图与视频创作工作台。">
+<title>WorkBuddy 媒体工作台 · Kusylit's Studio</title>
+<meta name="description" content="WorkBuddy 媒体工作台（Kusylit's Studio）— 本地优先的 AI 生图、改图与视频创作工作台。">
 <meta name="author" content="Kusylit">
 <meta name="theme-color" content="#0f1115">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='15'%20fill='%237c9cff'/%3E%3Cpath%20d='M22%2015v34M22%2033l17-18M22%2033l17%2016'%20fill='none'%20stroke='%230b1020'%20stroke-width='6'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -1600,7 +1600,7 @@ code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
 .brand{display:flex;align-items:center;gap:10px;padding:2px 8px 16px;border-bottom:1px solid var(--line);margin-bottom:12px}
 .logo{width:38px;height:38px;border-radius:11px;background:var(--accent);color:#0b1020;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;letter-spacing:-.04em;box-shadow:0 4px 12px rgba(0,0,0,.18)}
 .brand-text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
-.brand-text b{font-size:15px;font-weight:700;letter-spacing:.005em;white-space:nowrap}
+.brand-text b{font-size:14.5px;font-weight:700;letter-spacing:.003em;white-space:nowrap}
 .brand-text span{font-size:9.5px;color:var(--dim);letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
 .nav{flex:1;overflow-y:auto;padding-right:2px}
 .nav-group{font-size:10.5px;color:#5f6779;letter-spacing:.12em;padding:14px 10px 6px;text-transform:uppercase}
@@ -1840,7 +1840,7 @@ a{color:var(--accent)}
   <aside class="sidebar">
     <div class="brand">
       <div class="logo" aria-hidden="true">K</div>
-      <div class="brand-text"><b>Kusylit's Studio</b><span>AI media workbench</span></div>
+      <div class="brand-text"><b>WorkBuddy 媒体工作台</b><span>Kusylit's Studio</span></div>
     </div>
     <nav class="nav">
       <div class="nav-group">工作台</div>
@@ -2281,7 +2281,7 @@ a{color:var(--accent)}
   <div class="card" style="max-width:380px;width:90%">
     <div class="gate-brand">
       <div class="logo" aria-hidden="true">K</div>
-      <div class="brand-text"><b>Kusylit's Studio</b></div>
+      <div class="brand-text"><b>WorkBuddy 媒体工作台</b><span>Kusylit's Studio</span></div>
     </div>
     <h3 style="margin:0 0 8px">访问受保护</h3>
     <div class="hint">输入访问密码后继续。</div>
@@ -5100,7 +5100,7 @@ def main():
         print("找不到可用的 API Key，请先在看板创建。")
         sys.exit(1)
     if _already_running():
-        print("Kusylit's Studio 已经在运行: http://127.0.0.1:%d/" % LISTEN[1])
+        print("WorkBuddy 媒体工作台 已经在运行: http://127.0.0.1:%d/" % LISTEN[1])
         print("如需重启，先运行 media-studio-stop.cmd。")
         sys.exit(0)
     cfg = load_config()
@@ -5109,8 +5109,8 @@ def main():
     migrate_config()
     migrate_tags()
     load_jobs()
-    slog("ok", "Kusylit's Studio 启动 · 保存目录 %s" % cfg["save_dir"])
-    print("Kusylit's Studio — AI 媒体工作台")
+    slog("ok", "WorkBuddy 媒体工作台启动 · 保存目录 %s" % cfg["save_dir"])
+    print("WorkBuddy 媒体工作台（Kusylit's Studio）")
     print("  http://127.0.0.1:%d/" % LISTEN[1])
     print("  网关 %s" % GATEWAY)
     print("  保存目录 %s" % cfg["save_dir"])
