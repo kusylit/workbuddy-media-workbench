@@ -201,11 +201,21 @@ The gallery only shows the current save directory. Old files still exist; open t
 
 Expected. The password lives only in page memory and is not restored from browser storage.
 
+## Local checks
+
+Before publishing, run from the repository root:
+
+```sh
+python scripts/check.py
+```
+
+On Windows you can also run `scripts/check.cmd`. It checks Python syntax, the plugin manifest, required files, shell line endings, and common secret/local-path leaks.
+
 ## Compatibility
 
 - Gateway: WorkBuddy2API-Hub v2.0.0-compatible `/v1/media/models`, `/v1/images/generations`, `/v1/images/edits`, `/v1/videos` APIs.
 - Python: 3.10+ on Windows / Linux / macOS.
-- Plugin version: `1.3.1`.
+- Plugin version: `1.3.2`.
 
 ## Notes
 

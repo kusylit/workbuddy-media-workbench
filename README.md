@@ -204,11 +204,21 @@ http://127.0.0.1:8790/
 
 这是预期行为。密码只存在于当前页面内存，刷新后不会从浏览器存储里恢复。
 
+## 本地检查
+
+发布前在仓库根目录运行：
+
+```sh
+python scripts/check.py
+```
+
+Windows 也可以运行 `scripts/check.cmd`。脚本会检查 Python 语法、插件 manifest、必需文件、启动脚本换行和常见密钥/本地路径泄漏。
+
 ## 兼容性
 
 - 网关：WorkBuddy2API-Hub v2.0.0 及兼容的 `/v1/media/models`、`/v1/images/generations`、`/v1/images/edits`、`/v1/videos` 接口。
 - Python：3.10+，Windows / Linux / macOS。
-- 插件版本：`1.3.1`。
+- 插件版本：`1.3.2`。
 
 ## 说明
 
