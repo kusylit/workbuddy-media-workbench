@@ -1,13 +1,15 @@
 {
-  "schema": "kusylit-studio/plugin@1",
-  "id": "kusylit-studio",
-  "name": "Kusylit's Studio",
-  "version": "1.0.0",
-  "description": "Local-first AI image, edit and video workbench for WorkBuddy2API-Hub",
+  "schema": "workbuddy-media-workbench/plugin@1",
+  "id": "workbuddy-media-workbench",
+  "name": "WorkBuddy Media Workbench",
+  "displayName": "WorkBuddy 媒体工作台",
+  "brand": "Kusylit's Studio",
+  "version": "1.1.0",
+  "description": "Local-first image, edit and video workbench for WorkBuddy2API-Hub / WorkBuddy2API-Hub 的本地生图、改图、生视频工作台",
   "author": "Kusylit",
   "entry": "media_studio.py",
   "runtime": "python>=3.10",
   "gateway": "http://127.0.0.1:8788",
-  "homepage": "https://github.com/kusylit/kusylit-studio",
+  "homepage": "https://github.com/kusylit/workbuddy-media-workbench",
   "platforms": ["windows", "linux", "macos"]
 }

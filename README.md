@@ -1,95 +1,213 @@
-# Kusylit's Studio
+# WorkBuddy 媒体工作台（Kusylit's Studio）
 
-A local-first AI media workbench plugin for **WorkBuddy2API-Hub**.
+**WorkBuddy2API-Hub 的本地生图 / 改图 / 生视频工作台插件。**
 
-Kusylit's Studio provides one local page for:
+它把网关的媒体能力集中到一个本地网页里：填写提示词、选模型和尺寸、提交图片或视频任务、查看进度、管理作品。图片和视频默认保存在本机，不经过第三方中转。
 
-- Text-to-image generation
-- Image editing with multiple reference images
-- Text-to-video / image-to-video generation
-- Async task tracking with progress and cancellation
-- Gallery with search, time filters, favorites and deletion
-- Prompt tag library with custom categories
-- Batch queues with cost confirmation and stop control
-- Local console, audit log, balance and gateway health
+[English README](README.en.md)
 
-The plugin is intentionally local: it binds only to `127.0.0.1` and keeps generated media on disk.
+---
 
-## Requirements
+## 功能
 
-- Python 3.10 or newer. No third-party Python packages are required.
-- A running [WorkBuddy2API-Hub](https://github.com/ardeyouxipianyi/workbuddy2api-hub) gateway on `http://127.0.0.1:8788`.
-- The plugin directory must be a **sibling** of `workbuddy2api-hub`, because the plugin reads the enabled API key from:
+- **文生图**：选择模型、预设分辨率或自定义宽高。
+- **改图**：上传一张或多张原图，按描述修改。
+- **文生视频 / 图生视频**：支持首帧、尾帧、参考图、时长、分辨率、比例和负向提示。
+- **任务与进度**：查看排队、生成、保存、完成、失败状态；支持取消、失败重试保存、复用参数。
+- **作品页**：按图片/视频/收藏筛选，按名称搜索，按时间筛选，支持收藏和删除。
+- **提示词标签库**：自定义分类、搜索、多选插入、使用次数统计、导入导出。
+- **批量队列**：每行一个 prompt，逐条提交，显示预估积分；支持审核失败停止和手动停止本批。
+- **控制台 / 审计**：查看服务端日志、操作审计、网关状态和余额。
+- **本地优先**：只监听 `127.0.0.1`，作品和配置都在本机。
 
-```text
-../workbuddy2api-hub/accounts/settings.json
-```
+## 前置条件
 
-Directory layout:
+1. **Python 3.10+**，只使用标准库，不需要安装第三方 Python 包。
+2. 已部署并运行 [WorkBuddy2API-Hub](https://github.com/ardeyouxipianyi/workbuddy2api-hub)，网关地址为：
+
+   ```text
+   http://127.0.0.1:8788
+   ```
+
+3. 网关里至少有一个启用的 API Key。
+4. 插件目录必须和 `workbuddy2api-hub` **同级**，因为插件会读取：
+
+   ```text
+   ../workbuddy2api-hub/accounts/settings.json
+   ```
+
+目录结构示例：
 
 ```text
 your-folder/
 ├─ workbuddy2api-hub/
-└─ kusylit-studio/
+│  └─ accounts/settings.json
+└─ workbuddy-media-workbench/
    ├─ media_studio.py
    ├─ media-studio.cmd
+   ├─ start.sh
    └─ ...
 ```
 
-## Run
+## 启动
 
 ### Windows
 
-Double-click `media-studio.cmd`, or run:
+双击 `media-studio.cmd`，或在命令行运行：
 
 ```bat
 python media_studio.py
 ```
 
+停止：双击 `media-studio-stop.cmd`，或关闭运行窗口。
+
 ### Linux / macOS
 
 ```sh
+chmod +x start.sh
 ./start.sh
-# or
+```
+
+也可以直接运行：
+
+```sh
 python3 media_studio.py
 ```
 
-Open <http://127.0.0.1:8790/>.
+停止：在运行终端按 `Ctrl+C`。
 
-### Stop
+启动后打开：
 
-- Windows: run `media-studio-stop.cmd`
-- Linux / macOS: `Ctrl+C` in the terminal running the server
+```text
+http://127.0.0.1:8790/
+```
 
-## Runtime data
+## 使用方式
 
-The plugin creates these files/directories next to `media_studio.py`:
+### 1. 文生图
 
-| Path | Purpose |
+1. 打开「文生图」。
+2. 填写画面描述 prompt；可以在「从标签库插入」里选择已有标签。
+3. 选择模型和分辨率。预设不合适时选「自定义宽高」。
+4. 点「生成图片」。
+5. 生成完成后，图片会自动保存到保存目录，并在下方预览。
+
+### 2. 改图
+
+1. 打开「改图」。
+2. 上传一张或多张原图。
+3. 填写修改描述，例如「把背景改成雨夜街道，保留人物姿势」。
+4. 选择模型、分辨率，然后生成。
+5. 结果会保存到同一保存目录。
+
+### 3. 文生视频
+
+1. 打开「文生视频」。
+2. 选择模型，设置时长、分辨率和比例。
+3. 按需上传首帧、尾帧或参考图。
+4. 点「提交视频任务」。
+5. 页面会跳到「任务与进度」；视频是异步生成的，完成后自动下载保存。
+
+### 4. 任务与进度
+
+- 点任务行展开详情，查看 prompt、参数、保存路径、错误信息和预览。
+- 视频任务在排队状态可以取消；已经开始生成的任务通常不能取消。
+- 保存失败的图片或视频可以点「重试保存」。
+- 「复用参数」会把模型和参数填回对应表单。
+- 「同步历史」可以从网关已有任务里导入记录。
+
+### 5. 作品页
+
+- 上方切换「全部 / 图片 / 视频 / 收藏」。
+- 搜索框支持多个关键词，用空格分隔，文件名中的所有关键词都命中才显示。
+- 时间筛选支持今天、近 3/7/30 天和自定义起止日期。
+- 鼠标移到作品上，可以收藏或删除；删除会从保存目录移除文件。
+- 作品超过单页加载数量时，点「加载更多」。
+
+### 6. 标签库
+
+- 在 prompt 输入框旁点「从标签库插入」。
+- 可以新建、编辑、删除标签和分类。
+- 支持导出/导入标签 JSON；导入会自动跳过重复标签。
+
+### 7. 批量队列
+
+1. 勾选「批量模式」。
+2. 在文本框里每行写一个 prompt。
+3. 点「从文本框导入」生成队列。
+4. 点生成/提交，确认预估积分后开始。
+5. 运行中可以点「停止本批」；已完成的条目不会在下一批重复提交，若要重跑请重新导入。
+
+## 设置
+
+在「设置」页可以：
+
+- 修改图片/视频保存目录。
+- 打开保存目录。
+- 刷新上游余额（需要网关看板密码）。
+- 启用/关闭工作台访问密码。
+- 导出/导入标签。
+- 查看网关状态、模型数量、余额和最近审计。
+
+> 访问密码只保存在当前页面内存中，刷新页面后需要重新输入；这是为了避免把明文密码写进 localStorage/sessionStorage。
+
+## 运行数据
+
+插件会在 `media_studio.py` 同级创建：
+
+| 路径 | 用途 |
 |---|---|
-| `media-out/` | Generated images and videos |
-| `studio-config.json` | Save directory and access-password hash |
-| `studio-jobs.json` | Task history |
-| `studio-tags.json` | Prompt tag library |
-| `studio-favorites.json` | Gallery favorites |
-| `studio-console.log` | Persistent console log |
-| `studio-audit.log` | Security/action audit log |
+| `media-out/` | 生成的图片和视频 |
+| `studio-config.json` | 保存目录、访问密码哈希 |
+| `studio-jobs.json` | 任务记录 |
+| `studio-tags.json` | 提示词标签 |
+| `studio-favorites.json` | 作品收藏 |
+| `studio-console.log` | 控制台日志 |
+| `studio-audit.log` | 操作审计日志 |
 
-They are excluded by `.gitignore` and should not be committed.
+这些文件/目录已写入 `.gitignore`，不要提交到 GitHub。
 
-`studio-config.example.json` shows the initial configuration shape.
+初始配置可以参考 `studio-config.example.json`。
 
-## Security notes
+## 安全说明
 
-- The HTTP server listens on `127.0.0.1:8790` only.
-- `/api/*` requests require a per-process studio token embedded in the page.
-- Optional access-password protection uses PBKDF2-SHA256. The password is kept in page memory only, so a refresh asks for it again.
-- Generated files are exposed through short-lived HMAC-signed `/files/` URLs.
-- Image URLs returned by the upstream gateway are validated: only public `http(s)` hosts are accepted, and private/loopback/link-local targets are rejected.
-- Do not put this behind a public reverse proxy without adding TLS, authentication and network-level rate limiting.
+- 服务只监听 `127.0.0.1:8790`，默认不对局域网/公网开放。
+- `/api/*` 需要页面内嵌的 studio token。
+- 可选访问密码使用 PBKDF2-SHA256；密码不落盘、不写入浏览器持久存储。
+- 作品文件通过带有效期的 HMAC 签名链接访问。
+- 上游返回的图片 URL 只允许公网 `http(s)`，会拒绝 localhost、内网、链路本地和云元数据地址。
+- 不要把本服务直接暴露到公网；如需远程使用，请在前面加 HTTPS、认证和网络层限流。
 
-## Notes
+## 常见问题
 
-This is an independent companion UI. WorkBuddy and WorkBuddy2API-Hub belong to their respective authors; this repository is not an official WorkBuddy client.
+### 页面显示「模型不可用 / 404」
 
-Author: **Kusylit**
+确认网关已经在 `127.0.0.1:8788` 运行，并且网关里至少有一个启用的 API Key。可以打开网关看板检查账号和模型。
+
+### 视频完成了但没有文件
+
+先看任务详情里的「保存错误」。常见原因是保存目录不可写、磁盘空间不足或视频下载失败。修复后点「重试保存」。
+
+### 端口 8790 被占用
+
+运行 `media-studio-stop.cmd`（Windows）或结束占用 8790 的 Python 进程，然后重新启动。
+
+### 修改保存目录后旧作品看不到
+
+作品页显示的是当前保存目录。旧目录的文件仍然存在，只是不在当前作品中；需要用「打开文件夹」或改回旧目录查看。
+
+### 刷新后要求重新输入访问密码
+
+这是预期行为。密码只存在于当前页面内存，刷新后不会从浏览器存储里恢复。
+
+## 兼容性
+
+- 网关：WorkBuddy2API-Hub v2.0.0 及兼容的 `/v1/media/models`、`/v1/images/generations`、`/v1/images/edits`、`/v1/videos` 接口。
+- Python：3.10+，Windows / Linux / macOS。
+- 插件版本：`1.1.0`。
+
+## 说明
+
+这是独立配套工作台，不是 WorkBuddy 官方客户端。WorkBuddy、WorkBuddy2API-Hub 的名称和实现归各自作者所有。
+
+作者：**Kusylit**
