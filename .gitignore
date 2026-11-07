@@ -1,0 +1,23 @@
+# runtime data — never publish
+__pycache__/
+*.pyc
+media-out/
+media-out2/
+inputs/
+studio-config.json
+studio-jobs.json
+studio-tags.json
+studio-favorites.json
+studio-console.log
+studio-audit.log
+studio-*.log
+media-studio-server.out.log
+media-studio-server.err.log
+wb-out.log
+*.corrupt-*
+*.part
+
+# local OS junk
+Thumbs.db
+desktop.ini
+.DS_Store

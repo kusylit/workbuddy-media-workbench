@@ -1,0 +1,13 @@
+{
+  "schema": "kusylit-studio/plugin@1",
+  "id": "kusylit-studio",
+  "name": "Kusylit's Studio",
+  "version": "1.0.0",
+  "description": "Local-first AI image, edit and video workbench for WorkBuddy2API-Hub",
+  "author": "Kusylit",
+  "entry": "media_studio.py",
+  "runtime": "python>=3.10",
+  "gateway": "http://127.0.0.1:8788",
+  "homepage": "https://github.com/kusylit/kusylit-studio",
+  "platforms": ["windows", "linux", "macos"]
+}
