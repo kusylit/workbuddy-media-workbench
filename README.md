@@ -4,6 +4,8 @@
 
 它把网关的媒体能力集中到一个本地网页里：填写提示词、选模型和尺寸、提交图片或视频任务、查看进度、管理作品。图片和视频默认保存在本机，不经过第三方中转。
 
+![WorkBuddy 媒体工作台](docs/screenshots/workbench.png)
+
 [English README](README.en.md)
 
 ---
@@ -150,6 +152,8 @@ http://127.0.0.1:8790/
 - 查看网关状态、模型数量、余额和最近审计。
 
 > 访问密码只保存在当前页面内存中，刷新页面后需要重新输入；这是为了避免把明文密码写进 localStorage/sessionStorage。
+>
+> 如需修改「变体生成」的默认模板，在 `studio-config.json` 里设置 `variant_template`；留空则使用内置的通用模板。
 
 ## 运行数据
 
@@ -204,10 +208,14 @@ http://127.0.0.1:8790/
 
 - 网关：WorkBuddy2API-Hub v2.0.0 及兼容的 `/v1/media/models`、`/v1/images/generations`、`/v1/images/edits`、`/v1/videos` 接口。
 - Python：3.10+，Windows / Linux / macOS。
-- 插件版本：`1.2.0`。
+- 插件版本：`1.3.0`。
 
 ## 说明
 
 这是独立配套工作台，不是 WorkBuddy 官方客户端。WorkBuddy、WorkBuddy2API-Hub 的名称和实现归各自作者所有。
 
 作者：**Kusylit**
+
+## 许可证
+
+本项目使用 [MIT License](LICENSE)。

@@ -301,8 +301,12 @@ def load_config():
     except Exception:
         path = DEFAULT_SAVE_DIR
         os.makedirs(path, exist_ok=True)
+    template = data.get("variant_template")
+    if not isinstance(template, str):
+        template = ""
     return {"save_dir": path,
-            "access_password_hash": str(data.get("access_password_hash") or "")}
+            "access_password_hash": str(data.get("access_password_hash") or ""),
+            "variant_template": template[:8000]}
 
 
 def load_config_raw():
@@ -1566,6 +1570,17 @@ def rename_artifacts():
 
 
 # ---------------------------------------------------------------- 页面
+
+DEFAULT_VARIANT_TEMPLATE = (
+    "一张日系动漫人物数字涂鸦，{构图}。整体低完成度、稚拙、随手涂画；"
+    "用极少的线条和色块表现角色，保留不规整的手绘痕迹。{动作}。{表情}。"
+    "{背景}。{光线}。画面必须粗糙、潦草、不精确，不要精修、不要细化五官和发丝。"
+)
+
+
+def js_string_literal(value):
+    return json.dumps(str(value), ensure_ascii=True).replace("</", r"<\/")
+
 
 PAGE = r"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -3881,7 +3896,7 @@ const VARIANT_SLOTS = [
     '逆光，人物边缘有一圈浅色亮边'
   ]}
 ];
-const EMMA_TEMPLATE = '一张极其随意、粗糙、简单的日系萌系动漫人物数字涂鸦，角色为《魔法少女的魔女审判》中的樱羽艾玛，{构图}。整体低完成度、稚拙、随手涂画；用极少的线条和色块表现角色，保留不规整的手绘痕迹。线稿用明显粗黑、粗细不均、会突然断开和错位的笔触；头发只用少量粗黑曲线，不画细碎发丝。上色为不均匀的大面积平涂，颜色可越过轮廓、留下白色空隙，高光是几笔粗糙白色块。{动作}。{表情}。白色短发，长度接近下巴，发尾与内侧带浅粉渐变；黑色贝雷帽、樱花发饰、黑色十字发夹；黑色白边制服、白衬衫、深色领结、黑 choker。{背景}。{光线}。画面必须粗糙、潦草、不精确，不要精修、不要细化五官和发丝、不要厚涂或丰富阴影。';
+const DEFAULT_VARIANT_TEMPLATE = __VARIANT_TEMPLATE__;
 function renderVariantSlots(){
   const box = $('variantSlots');
   box.innerHTML = VARIANT_SLOTS.map(g =>
@@ -3987,12 +4002,12 @@ function fillVariants(autoSubmit){
 }
 $('variantToggle').onclick = () => {
   $('variantPanel').classList.remove('hidden');
-  if(!$('variantCore').value.trim()) $('variantCore').value = EMMA_TEMPLATE;
+  if(!$('variantCore').value.trim()) $('variantCore').value = DEFAULT_VARIANT_TEMPLATE;
   $('variantPanel').scrollIntoView({behavior:'smooth', block:'start'});
 };
 $('variantClose').onclick = () => $('variantPanel').classList.add('hidden');
 $('variantTemplate').onclick = () => {
-  $('variantCore').value = EMMA_TEMPLATE;
+  $('variantCore').value = DEFAULT_VARIANT_TEMPLATE;
   document.querySelectorAll('#variantSlots input').forEach(cb => { cb.checked = true; });
   $('variantCount').value = '6';
   $('variantPreview').classList.add('hidden');
@@ -4018,7 +4033,7 @@ $('variantCore').addEventListener('input', () => $('variantPreview').classList.a
 $('variantCount').addEventListener('input', () => { $('variantPreview').classList.add('hidden'); updateVariantCost(); });
 $('variantMode').addEventListener('change', () => { $('variantPreview').classList.add('hidden'); updateVariantCost(); });
 renderVariantSlots();
-$('variantCore').value = EMMA_TEMPLATE;
+$('variantCore').value = DEFAULT_VARIANT_TEMPLATE;
 updateVariantCost();
 
 async function generateOneImage(prompt, size, model){
@@ -4560,6 +4575,9 @@ class Handler(BaseHTTPRequestHandler):
             html = html.replace("__STUDIO_TOKEN__", STUDIO_TOKEN)
             html = html.replace("__CSP_NONCE__", CSP_NONCE)
             cfg = load_config()
+            template = cfg.get("variant_template") or DEFAULT_VARIANT_TEMPLATE
+            js_template = js_string_literal(template)
+            html = html.replace("__VARIANT_TEMPLATE__", js_template)
             html = html.replace("__ACCESS_REQUIRED__",
                                 "true" if cfg.get("access_password_hash") else "false")
             self._send(200, html, "text/html; charset=utf-8")

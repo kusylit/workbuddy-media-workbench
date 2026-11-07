@@ -6,6 +6,8 @@ A local-first image / edit / video workbench plugin for **WorkBuddy2API-Hub**.
 
 It puts the gateway's media capabilities into one local page: write prompts, choose models and sizes, submit image/video jobs, watch progress, and manage generated work. Media stays on the local disk by default.
 
+![WorkBuddy Media Workbench](docs/screenshots/workbench.png)
+
 ## Features
 
 - **Text-to-image** with model, preset or custom resolution.
@@ -147,6 +149,8 @@ The **Settings** page allows you to:
 - Inspect gateway status, model count, balance and recent audit entries.
 
 > The access password is kept in page memory only. A refresh asks for it again; it is not written to localStorage/sessionStorage.
+>
+> To change the default template used by **Generate variants**, set `variant_template` in `studio-config.json`; leave it empty to use the built-in generic template.
 
 ## Runtime data
 
@@ -201,10 +205,14 @@ Expected. The password lives only in page memory and is not restored from browse
 
 - Gateway: WorkBuddy2API-Hub v2.0.0-compatible `/v1/media/models`, `/v1/images/generations`, `/v1/images/edits`, `/v1/videos` APIs.
 - Python: 3.10+ on Windows / Linux / macOS.
-- Plugin version: `1.2.0`.
+- Plugin version: `1.3.0`.
 
 ## Notes
 
 This is an independent companion workbench, not an official WorkBuddy client. WorkBuddy and WorkBuddy2API-Hub belong to their respective authors.
 
 Author: **Kusylit**
+
+## License
+
+[MIT License](LICENSE)
